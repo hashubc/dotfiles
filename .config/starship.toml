@@ -1,5 +1,6 @@
 format = """\
 [╭╴](fg:arrow)\
+$time\
 $username\
 $os\
 $git_branch\
@@ -51,7 +52,7 @@ text_light = "#26272A"
 [username]
 style_user = 'bold os'
 style_root = 'bold os_admin'
-format = '[  $user](fg:$style) '
+format = '[ $user](fg:$style) '
 disabled = false
 show_always = true
 
@@ -92,8 +93,8 @@ truncate_to_repo = false
 read_only = "  "
 
 [time]
-disabled = true
-format = "at [󱑈 $time]($style)"
+disabled = false
+format = "[󱑈 $time]($style) "
 time_format = "%H:%M"
 style = "bold fg:time"
 
