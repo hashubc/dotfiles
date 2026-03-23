@@ -92,7 +92,7 @@ system_stats() {
   [ -r /proc/loadavg ] || return 0
 
   local load cpu_line idle total usage
-  load="$(awk '{printf "load:%s %s %s", $1, $2, $3}' /proc/loadavg)"
+  load="$(awk '{printf "%s", $1}' /proc/loadavg)"
 
   if [ -r /proc/stat ]; then
     cpu_line="$(awk '/^cpu / {print $2, $3, $4, $5, $6, $7, $8, $9}' /proc/stat)"
@@ -125,11 +125,21 @@ system_stats() {
   fi
 
   local mem=""
-  if command -v free >/dev/null 2>&1; then
-    mem="$(free -m | awk '/^Mem:/ {printf "mem:%d/%dM", $3, $2}')"
+  if [ -r /proc/meminfo ]; then
+    mem="$(
+      awk '
+        /^MemTotal:/ { total = $2 }
+        /^MemAvailable:/ { avail = $2 }
+        END {
+          if (total > 0 && avail >= 0) {
+            used = total - avail
+            printf "%d%%", int((used * 100) / total)
+          }
+        }' /proc/meminfo
+    )"
   fi
 
-  printf 'cpu:%s%% %s %s' "$usage" "$mem" "$load" | xargs
+  printf '󰍛 %s%% 󰘚 %s 󰓅 %s' "$usage" "$mem" "$load"
 }
 
 case "$mode" in
