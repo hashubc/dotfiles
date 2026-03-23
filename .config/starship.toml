@@ -52,7 +52,7 @@ text_light = "#26272A"
 [username]
 style_user = 'bold os'
 style_root = 'bold os_admin'
-format = '[ $user](fg:$style) '
+format = '[$user](fg:$style) '
 disabled = false
 show_always = true
 
@@ -94,7 +94,7 @@ read_only = "  "
 
 [time]
 disabled = false
-format = "[󱑈 $time]($style) "
+format = "[󱑈$time]($style) "
 time_format = "%H:%M"
 style = "bold fg:time"
 
